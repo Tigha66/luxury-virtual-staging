@@ -12,7 +12,7 @@ describe('stagingPrompt', () => {
 
   it('should include custom instruction when provided', () => {
     const custom = 'Use warm tones';
-    const prompt = buildStagingPrompt('bedroom', 'scandinavian' as any, 'restyle', custom);
+    const prompt = buildStagingPrompt('primary-bedroom', 'scandinavian', 'restyle', custom);
 
     expect(prompt).toContain(custom);
   });

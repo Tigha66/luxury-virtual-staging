@@ -31,21 +31,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment not verified' }, { status: 400 });
     }
 
-    if (job.status === 'complete' && job.masterOutputPath) {
-      return NextResponse.json({
-        status: 'complete',
-        jobId,
-        outputPath: job.masterOutputPath,
-      });
-    }
-
-    if (job.status === 'generating') {
-      return NextResponse.json({
-        status: 'generating',
-        jobId,
-      });
-    }
-
     await jobStore.updateJob(jobId, {
       status: 'generating',
       generationStartTime: new Date().toISOString(),

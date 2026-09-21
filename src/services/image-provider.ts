@@ -45,8 +45,8 @@ export class OpenAIImageStagingProvider implements ImageStagingProvider {
     });
 
     return {
-      imageUrl: response.data[0].url || '',
-      revisedPrompt: response.data[0].revised_prompt,
+      imageUrl: response.data?.[0]?.url || '',
+      revisedPrompt: response.data?.[0]?.revised_prompt,
     };
   }
 }

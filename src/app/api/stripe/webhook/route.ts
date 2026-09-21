@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       const job = jobs.find((j) => j.stripeCheckoutSessionId === session.id);
 
       if (job && job.status === 'checkout_created') {
-        await jobStore.updateJob(job.jobId, {
+        await jobStore.updateJob((job as any).jobId, {
           status: 'paid',
           pricePaid: config.pricing.stagingPriceCents,
         });

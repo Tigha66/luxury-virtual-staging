@@ -39,7 +39,7 @@ export async function GET(
 
     // Mock response for now - in production would fetch from blob storage
     const mockBuffer = Buffer.from('mock image data');
-    let exportBuffer = mockBuffer;
+    let exportBuffer: Buffer = mockBuffer;
 
     if (params.format === 'mls') {
       exportBuffer = await exportMLS(mockBuffer, { addDisclosureLabel: disclosure });
@@ -53,7 +53,7 @@ export async function GET(
 
     const filename = `${params.jobId}_${params.format}.jpg`;
 
-    return new NextResponse(exportBuffer, {
+    return new NextResponse(exportBuffer as any, {
       headers: {
         'Content-Type': 'image/jpeg',
         'Content-Disposition': `attachment; filename="${filename}"`,

@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
 
     const jobStore = await createJobStore();
     const jobs = await jobStore.listJobs();
-    const job = jobs.find((j) => j.stripeCheckoutSessionId === sessionId);
+    const job = jobs.find((j: any) => j.stripeCheckoutSessionId === sessionId);
 
     if (!job) {
       return NextResponse.json({ error: 'Job not found' }, { status: 404 });
