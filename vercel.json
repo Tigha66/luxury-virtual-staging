@@ -1,0 +1,9 @@
+{
+  "name": "luxury-virtual-staging",
+  "description": "AI-powered virtual staging for luxury real estate photography",
+  "type": "nextjs",
+  "version": "0.1.0",
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "framework": "nextjs"
+}
