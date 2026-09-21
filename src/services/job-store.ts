@@ -51,14 +51,14 @@ export async function initializeBlobStore(): Promise<BlobStore> {
           if (!response.ok) return null;
           const size = response.headers.get('content-length');
           return {
-            size: size ? parseInt(size) : 0,
+            size: size ? parseInt(size, 10) : 0,
             uploadedAt: new Date(),
           };
         } catch {
           return null;
         }
       },
-      list: async (prefix?: string) => {
+      list: async () => {
         // Mock implementation - would need Vercel Blob list API
         return [];
       },
@@ -71,6 +71,7 @@ export async function initializeBlobStore(): Promise<BlobStore> {
 }
 
 export async function createJobStore(): Promise<JobStore> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const store = await initializeBlobStore() as any;
   const blobStore: BlobStore = store;
 
@@ -122,3 +123,4 @@ export async function createJobStore(): Promise<JobStore> {
 
   return jobStoreInstance;
 }
+

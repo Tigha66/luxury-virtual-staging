@@ -2,16 +2,18 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ROOM_TYPES, DESIGN_STYLES, STAGING_MODES } from '@/types';
+import { useRouter } from 'next/navigation';
+import { ROOM_TYPES, DESIGN_STYLES, STAGING_MODES, RoomType, DesignStyle, StagingMode } from '@/types';
 
 interface StageFormState {
-  roomType: string;
-  designStyle: string;
-  stagingMode: string;
+  roomType: RoomType;
+  designStyle: DesignStyle;
+  stagingMode: StagingMode;
   customInstruction: string;
 }
 
 export default function StagePage() {
+  const router = useRouter();
   const [step, setStep] = useState<'upload' | 'select' | 'review'>('upload');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [form, setForm] = useState<StageFormState>({
@@ -78,7 +80,7 @@ export default function StagePage() {
       }
 
       const data = await response.json();
-      window.location.href = `/checkout?jobId=${data.jobId}&token=${data.token}`;
+      router.push(`/checkout?jobId=${data.jobId}&token=${data.token}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsLoading(false);
@@ -135,7 +137,7 @@ export default function StagePage() {
             <div className="bg-white rounded-lg p-8 shadow-sm border border-stone-200">
               <h2 className="text-xl font-semibold mb-6">Select room type</h2>
               <div className="grid grid-cols-2 gap-3">
-                {ROOM_TYPES.map((room: any) => (
+                {ROOM_TYPES.map((room) => (
                   <button
                     key={room.value}
                     type="button"
@@ -155,7 +157,7 @@ export default function StagePage() {
             <div className="bg-white rounded-lg p-8 shadow-sm border border-stone-200">
               <h2 className="text-xl font-semibold mb-6">Select design style</h2>
               <div className="grid grid-cols-2 gap-3">
-                {DESIGN_STYLES.map((style: any) => (
+                {DESIGN_STYLES.map((style) => (
                   <button
                     key={style.value}
                     type="button"
@@ -175,7 +177,7 @@ export default function StagePage() {
             <div className="bg-white rounded-lg p-8 shadow-sm border border-stone-200">
               <h2 className="text-xl font-semibold mb-6">Staging mode</h2>
               <div className="space-y-3">
-                {STAGING_MODES.map((mode: any) => (
+                {STAGING_MODES.map((mode) => (
                   <button
                     key={mode.value}
                     type="button"
@@ -230,19 +232,19 @@ export default function StagePage() {
               <div>
                 <p className="text-sm text-stone-600">Room type</p>
                 <p className="font-semibold text-stone-900">
-                  {ROOM_TYPES.find((r: any) => r.value === form.roomType)?.label}
+                  {ROOM_TYPES.find((r) => r.value === form.roomType)?.label}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-stone-600">Design style</p>
                 <p className="font-semibold text-stone-900">
-                  {DESIGN_STYLES.find((s: any) => s.value === form.designStyle)?.label}
+                  {DESIGN_STYLES.find((s) => s.value === form.designStyle)?.label}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-stone-600">Staging mode</p>
                 <p className="font-semibold text-stone-900">
-                  {STAGING_MODES.find((m: any) => m.value === form.stagingMode)?.label}
+                  {STAGING_MODES.find((m) => m.value === form.stagingMode)?.label}
                 </p>
               </div>
               {form.customInstruction && (

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { StagingJob } from '@/types';
 
 export default function ResultPage({ params }: { params: { jobId: string } }) {
+  const router = useRouter();
   const [job, setJob] = useState<StagingJob | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -6,8 +6,8 @@ export default function Privacy() {
 
         <h2>Introduction</h2>
         <p>
-          {process.env.NEXT_PUBLIC_APP_NAME || 'LuxeStage AI'} ("Service", "we", "us", "our") respects the privacy of our
-          users ("User", "you", "your").
+          LuxeStage AI (&quot;Service&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) respects the privacy of our
+          users (&quot;User&quot;, &quot;you&quot;, &quot;your&quot;).
         </p>
 
         <h2>Information We Collect</h2>
@@ -33,14 +33,14 @@ export default function Privacy() {
 
         <h2>Payment Information</h2>
         <p>
-          Payment processing is handled by Stripe. We do not store credit card details. You can review Stripe's privacy
+          Payment processing is handled by Stripe. We do not store credit card details. You can review Stripe&apos;s privacy
           policy at stripe.com/privacy.
         </p>
 
         <h2>Image Generation</h2>
         <p>
-          Staged images are generated using OpenAI's image editing API. OpenAI processes your image for generation purposes.
-          Please review OpenAI's privacy policy for details.
+          Staged images are generated using OpenAI&apos;s image editing API. OpenAI processes your image for generation purposes.
+          Please review OpenAI&apos;s privacy policy for details.
         </p>
 
         <h2>Changes to This Policy</h2>

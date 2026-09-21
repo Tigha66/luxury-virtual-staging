@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function CheckoutCompletePage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [redirecting, setRedirecting] = useState(false);
@@ -27,7 +29,7 @@ export default function CheckoutCompletePage() {
 
         const data = await response.json();
         setRedirecting(true);
-        window.location.href = `/result/${data.jobId}`;
+        router.push(`/result/${data.jobId}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
         setLoading(false);
@@ -35,7 +37,7 @@ export default function CheckoutCompletePage() {
     }
 
     verifyPayment();
-  }, []);
+  }, [router]);
 
   if (redirecting) {
     return (

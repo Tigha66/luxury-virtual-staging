@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { RoomType, DesignStyle, StagingMode } from '@/types';
 
 export const stagingRequestSchema = z.object({
   roomType: z.enum([
@@ -58,3 +57,4 @@ export function sanitizeFilename(filename: string): string {
     .toLowerCase()
     .slice(0, 255);
 }
+

@@ -1,5 +1,3 @@
-import { parse } from 'url';
-
 export interface ExportOptions {
   addDisclosureLabel?: boolean;
 }
