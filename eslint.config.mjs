@@ -12,7 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Node config files (CommonJS by necessity).
+    "jest.config.js",
+    "jest.setup.js",
   ]),
+  {
+    rules: {
+      // `any` is confined to third-party SDK boundaries (Stripe, OpenAI,
+      // Vercel Blob) where upstream types are incomplete or mismatched.
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

@@ -41,7 +41,7 @@ export default function Terms() {
         <h2>Payment Terms</h2>
         <p>
           All charges are non-refundable except as required by law. Transactions are processed through Stripe and subject to
-          Stripe's terms and conditions.
+          Stripe&apos;s terms and conditions.
         </p>
 
         <h2>Changes to Terms</h2>

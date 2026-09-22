@@ -22,14 +22,14 @@ export default function CheckoutCompletePage() {
           return;
         }
 
-        const response = await fetch(`/api/checkout/verify?session_id=${sessionId}`);
+        const response = await fetch(`/api/checkout?session_id=${sessionId}`);
         if (!response.ok) {
           throw new Error('Failed to verify payment');
         }
 
         const data = await response.json();
         setRedirecting(true);
-        router.push(`/result/${data.jobId}`);
+        router.push(`/result/${data.jobId}?token=${encodeURIComponent(data.token)}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
         setLoading(false);

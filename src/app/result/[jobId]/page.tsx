@@ -1,22 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { StagingJob } from '@/types';
 
-export default function ResultPage({ params }: { params: { jobId: string } }) {
-  const router = useRouter();
+function getToken(): string {
+  if (typeof window === 'undefined') return '';
+  return new URLSearchParams(window.location.search).get('token') || '';
+}
+
+export default function ResultPage() {
+  const routeParams = useParams<{ jobId: string }>();
+  const jobId = routeParams.jobId;
   const [job, setJob] = useState<StagingJob | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [addDisclosure, setAddDisclosure] = useState(false);
+  const [addDisclosure, setAddDisclosure] = useState(true);
 
   useEffect(() => {
     async function fetchJob() {
       try {
-        const token = new URLSearchParams(window.location.search).get('token');
-        const response = await fetch(`/api/jobs/${params.jobId}?token=${token}`);
+        const response = await fetch(
+          `/api/jobs/${jobId}?token=${encodeURIComponent(getToken())}`
+        );
 
         if (!response.ok) {
           throw new Error('Failed to load result');
@@ -32,7 +39,23 @@ export default function ResultPage({ params }: { params: { jobId: string } }) {
     }
 
     fetchJob();
-  }, [params.jobId]);
+  }, [jobId]);
+
+  const downloadExport = useCallback(
+    (format: string) => {
+      if (!job) return;
+      const url = `/api/jobs/${job.jobId}/download/${format}?token=${encodeURIComponent(
+        getToken()
+      )}&disclosure=${addDisclosure}`;
+      const link = document.createElement('a');
+      link.href = url;
+      link.rel = 'noopener';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    [job, addDisclosure]
+  );
 
   if (loading) {
     return (
@@ -78,7 +101,7 @@ export default function ResultPage({ params }: { params: { jobId: string } }) {
                     onChange={(e) => setAddDisclosure(e.target.checked)}
                     className="w-4 h-4 rounded cursor-pointer"
                   />
-                  <span className="text-sm font-medium text-stone-900">Add "Virtually Staged" label to exports</span>
+                  <span className="text-sm font-medium text-stone-900">Add &ldquo;Virtually Staged&rdquo; label to exports</span>
                 </label>
               </div>
 
@@ -99,7 +122,7 @@ export default function ResultPage({ params }: { params: { jobId: string } }) {
               <p>• Rendering furnishings</p>
               <p>• Preparing exports</p>
             </div>
-            <p className="text-sm text-stone-600 mt-8">This may take a few minutes. You can close this page—we'll keep your result.</p>
+            <p className="text-sm text-stone-600 mt-8">This may take a few minutes. You can close this page&mdash;we&apos;ll keep your result.</p>
           </div>
         )}
 
@@ -113,9 +136,7 @@ export default function ResultPage({ params }: { params: { jobId: string } }) {
             ].map((item) => (
               <button
                 key={item.format}
-                onClick={() => {
-                  window.location.href = `/api/jobs/${job.jobId}/download/${item.format}?disclosure=${addDisclosure}`;
-                }}
+                onClick={() => downloadExport(item.format)}
                 className="p-4 bg-stone-900 text-white rounded-lg hover:bg-stone-800 transition-colors text-left"
               >
                 <p className="font-semibold">{item.name}</p>

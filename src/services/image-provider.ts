@@ -37,7 +37,6 @@ export class OpenAIImageStagingProvider implements ImageStagingProvider {
 
     const prompt = buildStagingPrompt(roomType, designStyle, stagingMode, customInstruction);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await client.images.edit({
       image: inputImageUrl as any,
       prompt,

@@ -3,7 +3,6 @@ import { createJobStore } from '@/services/job-store';
 import { createStagingProvider } from '@/services/image-provider';
 import { config } from '@/config/config';
 import { verifyJobToken } from '@/lib/auth';
-import { generateLockId } from '@/lib/utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,11 +42,11 @@ export async function POST(request: NextRequest) {
     );
 
     try {
-      const result = await provider.stageImage(
+      await provider.stageImage(
         'mock://input', // In production, would be signed URL to private blob
-        job.roomType as any,
-        job.designStyle as any,
-        job.stagingMode as any,
+        job.roomType,
+        job.designStyle,
+        job.stagingMode,
         job.customInstruction
       );
 

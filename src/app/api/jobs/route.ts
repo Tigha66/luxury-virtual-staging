@@ -4,6 +4,9 @@ import { generateJobId } from '@/lib/utils';
 import { validateImageFile } from '@/lib/validation';
 import { config } from '@/config/config';
 import { signJobToken } from '@/lib/auth';
+import { RoomType, DesignStyle, StagingMode } from '@/types';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,9 +35,9 @@ export async function POST(request: NextRequest) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       inputPath: `inputs/${jobId}.jpg`,
-      roomType: roomType as any,
-      stagingMode: stagingMode as any,
-      designStyle: designStyle as any,
+      roomType: roomType as RoomType,
+      stagingMode: stagingMode as StagingMode,
+      designStyle: designStyle as DesignStyle,
       customInstruction,
       pricePaid: 0,
       currency: 'USD',
@@ -50,16 +53,5 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Job creation error:', error);
     return NextResponse.json({ error: 'Failed to create job' }, { status: 500 });
-  }
-}
-
-export async function GET(request: NextRequest) {
-  try {
-    const jobStore = await createJobStore();
-    const jobs = await jobStore.listJobs();
-    return NextResponse.json(jobs);
-  } catch (error) {
-    console.error('Job list error:', error);
-    return NextResponse.json({ error: 'Failed to list jobs' }, { status: 500 });
   }
 }

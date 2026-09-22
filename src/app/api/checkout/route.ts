@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     }
 
     const baseUrl = config.app.url;
-    const token = await signJobToken(jobId);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

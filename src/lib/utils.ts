@@ -1,16 +1,3 @@
-import { createHmac } from 'crypto';
-
-export async function verifyStripeWebhookSignature(
-  payload: string,
-  signature: string,
-  secret: string
-): Promise<boolean> {
-  const hmac = createHmac('sha256', secret);
-  hmac.update(payload);
-  const digest = hmac.digest('hex');
-  return signature === digest;
-}
-
 export function formatPrice(cents: number, currency: string = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',

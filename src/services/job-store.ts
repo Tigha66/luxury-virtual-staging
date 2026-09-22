@@ -71,9 +71,7 @@ export async function initializeBlobStore(): Promise<BlobStore> {
 }
 
 export async function createJobStore(): Promise<JobStore> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const store = await initializeBlobStore() as any;
-  const blobStore: BlobStore = store;
+  const blobStore = await initializeBlobStore();
 
   const jobStoreInstance: JobStore = {
     async saveJob(job: StagingJob): Promise<void> {
